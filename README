@@ -1,0 +1,142 @@
+/**********************************************************
+* HW3: Metro Simulator
+* Comp 15
+* README
+* Name: Asiyah Mumuney
+*********************************************************/
+
+Compile/run:
+     - Compile using
+            make MetroSim
+     - run executable with
+            ./MetroSim stations.txt output.txt test_commands.txt
+
+
+Program Purpose:
+
+This homework assignment handles a running train to accomodate
+passengers arriving/departing a metro. Learn how to design and
+modularize code and work with documented libraries.
+
+
+Acknowledgements: https://www.cs.tufts.edu/comp/15/notes/arraylists
+/arraylists2.pdf
+
+
+Files: 
+
+    main.cpp:
+        client of the MetroSim class
+
+        Takes in command line arguments.
+        Reads in stations
+        Opens the output file
+        Reads commands
+
+
+    MetroLine.cpp:
+                    Implementation of MetroSim class
+
+                    Contains all class definitions
+                    Constructor
+                    Destructor
+                    Defines Function to read station files
+                    Defines Function to read command files
+                        Moves the train
+                            drops passengers if train location is their depparture(print_output file, removeatTrain(pos))
+                            pick up all passengers at station (addtobacktrain, removefrontstation )
+                            change train location
+                        Destroys the MetroSim
+                        Adds Passenger
+                        Changes output file
+
+
+
+    MetroLine.h:
+             Interface of MetroSim class.
+
+             Contains all class declarations
+
+
+    stations.txt:
+            an example file containing a list of stations.
+
+    output.txt:
+            a file where the list of passengers leaving the station prints out to
+
+    test_commands.txt:
+            sample list of commands that you could give to the simulator
+
+    unit_texting.txt:
+            sample list of commands for unit testing
+
+    the_metroSim:
+            reference implementation for students to see how 
+
+
+    Note:  the program should handle all cases.
+
+Data Structures:
+                Arrays
+                Dynamic array lists as queues.
+
+                In MetroSim class,
+                    A dynamic array of stations(struct).
+                        dynamic array of passengers on stations
+
+                    One train(struct)
+                        dynamic array of passengers on train
+
+
+                I used an arraylist because it is the easiest Data structure (I am familiar with) to access indexes. I needed to access indexes in situations like looking for which passenger's depature is our current location.
+
+                 I used queues as opposed to stacks because we were using a First in First out
+                format in MetroSim. The passengers who were the first to arrive
+                the station are the first to board the train. The passngers whose departure is the current location depart the train in the order they boarded it.
+
+
+Testing:
+    Unit testing:
+        Edge cases:
+            I started by putting 25 passengers at station 1 all going to stations 2 to 26, while the train kept moving.
+            As the train reversed direction, I started to put one passenger in each station, each (n-> 27-n) starting from station and going to station 27 - n. This allowed me see test what would happen when a passenger was wanted to go the opposite direction of the train, it also helped me see who effective the train was at drooping people at their departures and picking people up at the stations.
+        Bugs:
+            When i first ran my program all i got was an error that read:
+            what(): std::bad_allocabort.
+            I then started to put "cerr" statements to see where the error was comiing from. I followed the functions I was calling and the functions they were calling until i reached rock bottom (binary trees).
+            I printed variables to see if they were what i expected.
+            I printed "here" statements to see where the program was at every point.
+            I printed in loops to see how many times they ran and the contents of the array whener i was adding or removing to the array.
+
+            I found out that most of my errors were from using the wrong variables.
+            As they were so many variables and interlinked arrays.
+            For example, I could loop around teh number of passengers at the next station instead of the station I was in. Or forget to subtract 1 when using the stationNum as an index of an array.
+
+            There was one arror that really stuck out. In my move function, it would only pick a couple of passengers and move on to the next station, I checked a million and one times and was sure I was looping around the 
+            right variable (Redline[Joe.location-1].statCurrOccup)
+            I then decided to print the variable inside the for loop to see what it looks like everytime the variable ran.
+            That was when I saw that the variable I had intended to remian
+            stagnant kept reducing any time the for loop was called(because
+            I was removing passengers) and that meant it reached the end of teh for loop.
+
+            I did infact want that variable to keep reducing, but I wanted the
+            number of times i was going through the loop to remain constant. 
+            I solved it by introducing a new variable and giving it the value of 
+            Redline[Joe.location-1].statCurrOccup, this new variable would remain
+            constant as we go in an dout of the loop, while
+            Redline[Joe.location-1].statCurrOccup changed. It worked perfectly.
+
+            A methodical approach to testing would be to print "here"
+            statements and print variables to compare with what you would expect.
+            Another way is too include hard code what to expect.
+
+
+Here describe the following: process of testing (unit tests), mention
+of bugs you encountered while testing, mention of testing on inputs of
+different sizes and edge cases, good description of base cases you
+considered while testing. Demonstrate a methodical approach to
+testing.  This section of your REAMDE should be very thorough for
+homework assignments.
+
+Note: This homework comes partially implemented, but student must also
+create the driver and add class functionality.

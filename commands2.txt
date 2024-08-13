@@ -1,0 +1,29 @@
+m m
+p 2 3
+m m
+p 1 2
+m m
+p 4 1
+m m
+p 3 5
+m m
+p 4 2
+m m
+p 4 3
+p 4 1
+p 4 2
+p 4 5
+p 4 1
+m m
+p 2 1
+m m
+m m
+m m
+m m
+m m
+m m
+m m
+m m
+m m
+m m
+m f
